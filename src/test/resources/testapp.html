@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modal and Popup Test App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+    button { padding: 8px 14px; margin-right: 8px; }
+    #myModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+               background: rgba(0,0,0,0.5); }
+    .modal-box { background: #fff; width: 360px; margin: 120px auto; padding: 20px; border-radius: 6px; }
+    #modalError { color: red; }
+  </style>
+</head>
+<body>
+  <h1 id="pageHeading">Modal and Popup Test App</h1>
+
+  <section>
+    <h2>1. Modal Dialog</h2>
+    <button id="openModalBtn">Open Modal</button>
+    <p id="modalResult"></p>
+  </section>
+
+  <section>
+    <h2>2. JavaScript Alerts</h2>
+    <button id="alertBtn">Simple Alert</button>
+    <button id="confirmBtn">Confirm Box</button>
+    <button id="promptBtn">Prompt Box</button>
+    <p id="alertResult"></p>
+    <p id="confirmResult"></p>
+    <p id="promptResult"></p>
+  </section>
+
+  <section>
+    <h2>3. Pop-up Window</h2>
+    <button id="popupBtn">Open Popup Window</button>
+  </section>
+
+  <div id="myModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">Enter Your Name</h3>
+      <button id="modalCloseX" style="float:right">X</button>
+      <input type="text" id="modalName" placeholder="Your name">
+      <p id="modalError"></p>
+      <button id="modalSubmitBtn">Submit</button>
+      <button id="modalCloseBtn">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    var modal = document.getElementById('myModal');
+
+    function closeModal() {
+      modal.style.display = 'none';
+      document.getElementById('modalError').textContent = '';
+    }
+
+    document.getElementById('openModalBtn').onclick = function () {
+      modal.style.display = 'block';
+    };
+    document.getElementById('modalCloseX').onclick = closeModal;
+    document.getElementById('modalCloseBtn').onclick = closeModal;
+
+    document.getElementById('modalSubmitBtn').onclick = function () {
+      var name = document.getElementById('modalName').value.trim();
+      if (name === '') {
+        document.getElementById('modalError').textContent = 'Name is required';
+        return;
+      }
+      document.getElementById('modalResult').textContent = 'Hello, ' + name;
+      closeModal();
+    };
+
+    document.getElementById('alertBtn').onclick = function () {
+      alert('This is a simple alert');
+      document.getElementById('alertResult').textContent = 'Alert was shown';
+    };
+
+    document.getElementById('confirmBtn').onclick = function () {
+      var ok = confirm('Do you want to continue?');
+      document.getElementById('confirmResult').textContent =
+        ok ? 'You pressed OK' : 'You pressed Cancel';
+    };
+
+    document.getElementById('promptBtn').onclick = function () {
+      var value = prompt('Enter your city:');
+      document.getElementById('promptResult').textContent =
+        value === null ? 'Prompt cancelled' : 'City: ' + value;
+    };
+
+    document.getElementById('popupBtn').onclick = function () {
+      var w = window.open('', 'popupWin', 'width=420,height=300');
+      w.document.write('<!DOCTYPE html><html><head><title>Popup Window</title></head><body>' +
+        '<h1 id="popupHeading">Welcome to the Popup</h1>' +
+        '<p id="popupText">This is a child window.</p>' +
+        '<button id="popupCloseBtn" onclick="window.close()">Close Popup</button>' +
+        '</body></html>');
+      w.document.close();
+    };
+  </script>
+</body>
+</html>
